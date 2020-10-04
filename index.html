@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register For Insurance</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+  <style>
+    textarea: 
+    {
+      resize:none;
+    }
+  </style>
+  <!-- NOTE: CSS is a modified version of the template found at: https://colorlib.com/wp/template/contact-form-v17/. I also included a version of my solution with no css in case that's easier to correct --> 
+<script type="text/javascript">
+      //these variables will be used to calculate the current total
+      let ageCost = 0;
+      let genderCost = 0;
+      let coverCost = 0;
+      let modelCost = 0;
+      let fuelCost = 0;
+      let carAgeCost = 0;
+      let claimsCost = 0;
+      let mileageCost = 0;
+      let valueCost = 0;
+      let securityCost = 0;
+      let useCost = 0;
+      //Set and initalize currentTotal value that will be displayed in the read only textbox
+      let currentTotal = 0;
+      
+      //function used to calculate costs associated with the driver's age
+      function ageChange(age)
+      {
+          currentTotal-=ageCost;
+          
+          if(age>=18 && age<25)
+          {
+            ageCost = 500;
+          }
+          else if(age>=25 && age<=30)
+          {
+            ageCost = 350;
+          }
+          else if(age>30 && age<=65)
+          {
+            ageCost = 200;
+          }
+          else if(age>65)
+          {
+            ageCost = 500;
+          }
+          else
+          {
+            ageCost = 0;
+          }
+          currentTotal+=ageCost;
+          document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the driver's gender
+      function genderClick()
+      {
+        currentTotal-=genderCost;
+        if(document.getElementById("male").checked)
+        {
+          genderCost = 400;
+        }
+        else
+        {
+          genderCost = 250;
+        }
+        currentTotal+=genderCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the cover choice
+      function coverChange(index)
+      {
+        currentTotal-=coverCost;
+        if(index==0)
+        {
+          coverCost = 0;
+        }
+        if(index==1)
+        {
+          coverCost = 400;
+        }
+        else
+        {
+          coverCost = 200;
+        }
+        currentTotal+=coverCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to populate model list box with appropriate cars corresponding to user's choice in the make combo box
+      function populateModelListbox(index)
+      {
+         //5 arrays containing car models for the model listbox and a blank value in the 0 index to make currentTotal=0 when form is loaded
+         let Ford = ["","Escape","Explorer","Fiesta", "Focus", "Transit"];
+         let Renault = ["","Duster","Espace","Pulse","Scenic","Zoe"];
+         let Seat = ["","Ateca","Ibiza","Leon","Mii","Tarraco"];
+         let Skoda = ["","Citigo","Fabia","Kodiaq","Octavia","Yeti"];
+         let Toyota = ["","Corolla","Prius","Sienna","Tacoma","Yaris"];
+      
+         document.forms[0].model.options.length = 0;
+         let carMake = document.forms[0].make.options[index].text;
+         
+         //use eval to prevent model combo box items being the letters of make name
+         let carList = eval(carMake);
+         
+         for(let i=0;i<carList.length;i++ )
+          {
+                     car = new Option();
+                     car.text = carList[i];
+                     car.value = carList[i];
+                     document.forms[0].model.options[i] = car;
+          }  
+         //include a call to model change since changing the make will always revert the model listbox to the first choice(0) for the new make  
+          modelChange(index,0); 
+      }
+      
+      //function used to calculate costs associated with the model choice
+      function modelChange(makeIndex,modelIndex)
+      {
+        currentTotal-=modelCost;
+        
+        //declare arrays to hold the costs associated with the arrays of cars created in populateModelListbox function
+        let fordCosts = [0,100,150,75,50,200];
+        let renaultCosts = [0,200,150,80,90,65];
+        let seatCosts = [0,120,50,85,70,175];
+        let skodaCosts = [0,50,70,65,115,90];
+        let toyotaCosts = [0,70,30,45,135,50];
+        
+        switch (makeIndex)
+        {
+          case 0:
+            modelCost = fordCosts[modelIndex];
+            break;
+          case 1:
+            modelCost = renaultCosts[modelIndex];
+            break;
+          case 2:
+            modelCost = seatCosts[modelIndex];
+            break;
+          case 3:
+            modelCost = skodaCosts[modelIndex];
+            break;
+          case 4:
+            modelCost = toyotaCosts[modelIndex];
+            break;    
+        }
+        currentTotal+=modelCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the fuel choice
+      function fuelChange(index)
+      {
+        currentTotal-=fuelCost;
+        if(index==0)
+        {
+          fuelCost = 0;
+        }
+        else if(index==1)
+        {
+          fuelCost = 50;
+        }
+        else if(index==2)
+        {
+          fuelCost = 40;
+        }
+        else
+        {
+          fuelCost = 20;
+        }
+        currentTotal+=fuelCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the car's age
+      function carAgeChange(age)
+      {
+          currentTotal-=carAgeCost;
+          
+          if(age<=3)
+          {
+            carAgeCost = 100;
+          }
+          else if(age>3 && age<=6)
+          {
+            carAgeCost = 70;
+          }
+          else if(age>6 && age<10)
+          {
+            carAgeCost = 50;
+          }
+          else
+          {
+            carAgeCost = 20;
+          }
+          currentTotal+=carAgeCost;
+          document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the claims free length
+      function claimsChange(index)
+      {
+        currentTotal-=claimsCost;
+        if(index==0)
+        {
+          claimsCost = 0;
+        }
+        if(index==1)
+        {
+          claimsCost = 100;
+        }
+        else if(index==2)
+        {
+          claimsCost = 80;
+        }
+        else if(index==3)
+        {
+          claimsCost = 60;
+        }
+        else if(index==4)
+        {
+          claimsCost = 40;
+        }
+        else
+        {
+          claimsCost = 20;
+        }
+        currentTotal+=claimsCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the milage entered
+      function mileageChange(mileage)
+      {
+          currentTotal-=mileageCost;
+          
+          if(mileage<=15000)
+          {
+            mileageCost = 30;
+          }
+          else if(mileage>15000 && mileage<=25000)
+          {
+            mileageCost = 40;
+          }
+          else
+          {
+            mileageCost = 50;
+          }
+          currentTotal+=mileageCost;
+          document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the car value entered
+      function valueChange(value)
+      {
+        currentTotal-=valueCost;
+        valueCost = parseInt(value)*0.1;
+        currentTotal+=valueCost;
+        document.forms[0].total.value = currentTotal.toFixed(2);
+      }
+      
+      //function used to calculate costs associated with the security option selected
+      function securityClick()
+      {
+        currentTotal-=securityCost;
+        if(document.getElementById("none").checked)
+        {
+          securityCost = 100;
+        }
+        else if(document.getElementById("alarm").checked)
+        {
+          securityCost = 70;
+        }
+        else if(document.getElementById("immobiliser").checked)
+        {
+          securityCost = 50;
+        }
+        else if(document.getElementById("alarm&immobiliser").checked)
+        {
+          securityCost = 30;
+        }
+        else
+        {
+          securityCost = 10;
+        }
+        currentTotal+=securityCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to calculate costs associated with the use option selected
+      function useClick()
+      {
+        currentTotal-=useCost;
+        if(document.getElementById("social").checked)
+        {
+          useCost = 30;
+        }
+        else
+        {
+          useCost = 50;
+        }
+        currentTotal+=useCost;
+        document.forms[0].total.value = currentTotal;
+      }
+      
+      //function used to validate that radio button groups have an option selected
+      function radioButtonValidation(radioButtons)
+      { 
+          for(i=0;i<radioButtons.length;i++)
+          {
+            if(radioButtons[i].checked)
+            {
+              return true;
+            }
+          }
+          return false;
+      }
+      
+      
+      //function used to return text of selected radio button
+      function radioButtonText(radioButtons)
+      { 
+          for(i=0;i<radioButtons.length;i++)
+          {
+            if(radioButtons[i].checked)
+            {
+              return radioButtons[i].value;
+            }
+          }
+      }
+      
+      
+      //functions to handle the appearance and disappearance of the textareas
+      function dateVisibilityOn()
+      {
+           document.getElementById("dateHelp").style = "visibility: visible;"
+      }
+      
+      function dateVisibilityOff()
+      {
+           document.getElementById("dateHelp").style = "visibility: hidden;"
+      }
+      
+      function coverVisibilityOn()
+      {
+           document.getElementById("coverHelp").style = "visibility: visible;"
+      }
+      
+      function coverVisibilityOff()
+      {
+           document.getElementById("coverHelp").style = "visibility: hidden;"
+      }
+      
+      function claimsVisibilityOn()
+      {
+           document.getElementById("claimHelp").style = "visibility: visible;"
+      }
+      
+      function claimsVisibilityOff()
+      {
+           document.getElementById("claimHelp").style = "visibility: hidden;"
+      }
+      
+      function valueVisibilityOn()
+      {
+           document.getElementById("valueHelp").style = "visibility: visible;"
+      }
+      
+      function valueVisibilityOff()
+      {
+           document.getElementById("valueHelp").style = "visibility: hidden;"
+      }
+      
+      function useVisibilityOn()
+      {
+           document.getElementById("useHelp").style = "visibility: visible;"
+      }
+      
+      function useVisibilityOff()
+      {
+           document.getElementById("useHelp").style = "visibility: hidden;"
+      }
+
+      
+      
+      //check to make sure text fields match max,min and patterns set in attributes. Also check that combo box blank value isn't selected and radio button fields have option selected.
+      function formValidation()
+      {
+        if(!document.getElementById("name").checkValidity())
+        {
+            document.getElementById("name").focus();
+        }
+        else
+        {
+            document.getElementById("name").style.borderColor = "black";
+            if(!document.getElementById("age").checkValidity())
+            {
+                document.getElementById("age").focus();
+            }
+            else
+            {
+              if(!radioButtonValidation(document.getElementsByName("gender")))
+              {
+                  window.alert("Gender must have an option selected.");
+                  document.getElementById('maleLabel').style.color = "red";
+                  document.getElementById('femaleLabel').style.color = "red";
+                  document.getElementById('genderField').style.color = "red";
+              }
+              else
+              {
+                  document.getElementById('maleLabel').style.color = "black";
+                  document.getElementById('femaleLabel').style.color = "black";
+                  document.getElementById('genderField').style.color = "black";
+                  
+                  //check for validation status of text boxes so as to only provide user with one error message at a time
+                  if(!document.getElementById("phone").checkValidity())
+                  {
+                     document.getElementById("phone").focus();
+                  }
+                  else
+                  {
+                     document.getElementById("phone").style.borderColor = "black";
+                     
+                     if(document.getElementById("cover").selectedIndex == 0)
+                     {
+                        window.alert("Type of Cover must have an option selected.");
+                        document.getElementById("cover").focus();
+                     }
+                     else
+                     {
+                       if(document.getElementById("model").selectedIndex == 0)
+                       {
+                          window.alert("Model of Car must have an option selected.");
+                          document.getElementById("model").focus();
+                       }
+                       else
+                       {
+                           if(document.getElementById("fuel").selectedIndex == 0)
+                           {
+                              window.alert("Fuel Type must have an option selected.");
+                              document.getElementById("fuel").focus();
+                           }
+                           else
+                           {
+                             if(!document.getElementById("carAge").checkValidity())
+                             {  
+                                document.getElementById("carAge").focus(); 
+                             }
+                             else
+                             {
+                                if(document.getElementById("claims").selectedIndex == 0)
+                                {
+                                   document.getElementById("claims").focus();
+                                }
+                                else
+                                {
+                                  if(!document.getElementById("mileage").checkValidity())
+                                  {
+                                     document.getElementById("mileage").focus();
+                                  }
+                                  else
+                                  {
+                                    if(!document.getElementById("value").checkValidity())
+                                    {
+                                        document.getElementById("value").focus();
+                                    }
+                                    else
+                                    {
+                                        if(!radioButtonValidation(document.getElementsByName("security")))
+                                        {
+                                          window.alert("Security must have an option selected.");
+                                          document.getElementById('securityLabel').style.color = "red";
+                                          document.getElementById('noneLabel').style.color = "red";
+                                          document.getElementById('alarmLabel').style.color = "red";
+                                          document.getElementById('immobiliserLabel').style.color = "red";
+                                          document.getElementById('alarm&immobiliserLabel').style.color = "red";
+                                          document.getElementById('trackingLabel').style.color = "red";
+                                      
+                                        }
+                                        else
+                                        {
+                                          document.getElementById('securityLabel').style.color = "black";
+                                          document.getElementById('noneLabel').style.color = "black";
+                                          document.getElementById('alarmLabel').style.color = "black";
+                                          document.getElementById('immobiliserLabel').style.color = "black";
+                                          document.getElementById('alarm&immobiliserLabel').style.color = "black";
+                                          document.getElementById('trackingLabel').style.color = "black";
+                                          
+                                          if(!radioButtonValidation(document.getElementsByName("use")))
+                                          {
+                                            window.alert("Use of Vehicle must have an option selected.");
+                                            document.getElementById('use').style.color = "red";
+                                            document.getElementById('socialLabel').style.color = "red";
+                                            document.getElementById('class1Label').style.color = "red";
+                                          }
+                                          else
+                                          {
+                                            document.getElementById('use').style.color = "black";
+                                            document.getElementById('socialLabel').style.color = "black";
+                                            document.getElementById('class1Label').style.color = "black";
+                                            
+                                            //set user entered data into localStorage
+                                            localStorage.setItem('name',document.getElementById("name").value);
+                                            localStorage.setItem('age',document.getElementById("age").value);
+                                            localStorage.setItem('gender',radioButtonText(document.getElementsByName("gender")));
+                                            localStorage.setItem('phone',document.getElementById("phone").value);
+                                            localStorage.setItem('date',document.getElementById("startDate").value);
+                                            localStorage.setItem('coverType',document.getElementById("cover").options[document.getElementById("cover").selectedIndex].text);
+                                            localStorage.setItem('make',document.getElementById("make").options[document.getElementById("make").selectedIndex].text);
+                                            localStorage.setItem('model',document.getElementById("model").options[document.getElementById("model").selectedIndex].text);
+                                            localStorage.setItem('fuel',document.getElementById("fuel").options[document.getElementById("fuel").selectedIndex].text);
+                                            localStorage.setItem('carAge',document.getElementById("carAge").value);
+                                            localStorage.setItem('claims',document.getElementById("claims").options[document.getElementById("claims").selectedIndex].text);
+                                            localStorage.setItem('mileage',document.getElementById("mileage").value);
+                                            localStorage.setItem('value',document.getElementById("value").value);
+                                            localStorage.setItem('security',radioButtonText(document.getElementsByName("security")));
+                                            localStorage.setItem('use',radioButtonText(document.getElementsByName("use")));
+                                            localStorage.setItem('total',document.getElementById("total").value);
+                      
+                                            //open new window and set focus on it
+                                            let summary = window.open("summary.html","_blank","height=800,width=500,toolbar=0,location=0,menubar=0,left=500,top=300");
+                                            summary.focus();
+                                            
+                                          }
+                                        }//close security else
+                                    }//close value else
+                                }//close mileage else
+                              }//close claims else 
+                            }//close carAge else
+                          }//close fuel else
+                        }//close model else
+                      }//close cover else
+                    }//close phone else
+                  }//close gender else
+                }//close age else
+              }//close name else
+        }//close function
+    </script>
+</script>
+</head>
+<body>
+   <div style="background-color:none;">
+    <div id="timerContainer" style="width:80%; margin:2% auto; border:solid 1px black; border-radius: 2%;">
+      <h3 style="margin-bottom:1%;">Security Notice</h3>
+      <p id="timer"></p>
+    </div>
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Register For Insurance
+				</span>
+
+        <!--Name Input-->
+        <label for="name" class="label-input100">Name:</label>
+				<div class="wrap-input100">                                                           
+          <input required class="input100" placeholder="Please enter your full name" type="text" name="name" id="name"  minlength="6" maxlength="30" pattern="^[A-Za-z0-9 ]*[']{0,1}[A-Za-z0-9 ]*[']{0,1}[A-Za-z0-9 ]*$" title="Name must be between 6 and 30 characters long and can contain a max of 2 apostrophes.">
+					<span class="focus-input100"></span>
+				</div>
+
+        <!--Age Input-->
+				<label class="label-input100" for="age">Enter your Age</label>
+				<div class="wrap-input100">
+					<input required class="input100" placeholder="Please enter your age" type="number" name="age" id="age" min="18" max="125" oninput="ageChange(this.value)" title="Age must be numeric and between 18 and 125.">
+					<span class="focus-input100"></span>
+				</div>
+        
+        <!--Gender Input-->
+        <label class="label-input100" for="gender" id="genderField">Select Your Gender</label>
+        <div class="wrap-input100">
+          <input type="radio" name="gender" value="Male" id="male" onclick="genderClick()" style="margin:5% 1% 5% 25%;">
+          <label for="male" id="maleLabel">Male</label>
+          <input type="radio" name="gender" value="Female" id="female" onclick="genderClick()" style="margin:5% 1% 5% 15%;">
+          <label for="female" id="femaleLabel">Female</label>
+        </div>
+
+        <!--Phone Input-->
+				<label class="label-input100" for="phone">Enter your Phone Number</label>
+				<div class="wrap-input100">
+					<input type="tel" class="input100" id="phone" name="phone" placeholder="0XXXXXXXXX" pattern="[0]{1}[0-9]{9}" required title="Phone number must begin with 0 and be in format 0XXXXXXXXX.">
+					<span class="focus-input100"></span>
+				</div>
+
+        <!--Date Input-->
+				<label for="date" onmouseover="dateVisibilityOn()" onmouseout="dateVisibilityOff()" class="label-input100">Please select your cover's start date*</label>
+				<div class="wrap-input100">
+          <input type="date" id="startDate" name="date" title="Choose your policy start date" style="margin-left:5%;"/>
+					<span class="focus-input100"></span>
+          <textarea id="dateHelp" readonly cols="50" rows="3" style="margin:2% auto; visibility:hidden;">Please select the desired start date for your Insurance Policy. The selected date must be in the future</textarea>
+				</div>
+        
+        <!--Type of Cover Combo Box-->
+        <label for="type" onmouseover="coverVisibilityOn()" onmouseout="coverVisibilityOff()" class="label-input100">Type of Cover*</label>
+				<div class="wrap-input100">
+          <select name="type" style="margin:5% 0% 0% 5%;" id="cover" onchange="coverChange(this.selectedIndex)">
+            <option value="blank"></option>
+            <option value="Comprehensive">Fully Comprehensive</option>
+            <option value="thirdParty">Third Party Fire and Theft</option>
+          </select>
+          <textarea id="coverHelp" readonly cols="50" rows="3" style=" margin-left:2%; visibility:hidden;">Please select between Comprehensive and 3rd Party. Comprehensive has more benefits but increased cost.</textarea>
+					<span class="focus-input100"></span>
+				</div>
+        
+        <!--Make of Car Combo Box-->
+        <label for="make" class="label-input100">Make of Car</label>
+        <div class="wrap-input100">
+          <select name="make" id="make" style="margin:5% 0% 5% 5%;" onchange="populateModelListbox(this.selectedIndex)">
+            <option value="ford">Ford</option>
+            <option value="renault">Renault</option>
+            <option value="seat">Seat</option>
+            <option value="skoda">Skoda</option>
+            <option value="toyota">Toyota</option>
+          </select>
+        </div>
+        
+        <!--Model of Car Combo Box-->
+        <label for="model" class="label-input100">Model of Car</label>
+        <div class="wrap-input100">
+          <select name="model" id="model" style="margin:5% 0% 5% 5%;" onchange="modelChange(document.getElementById('make').selectedIndex,this.selectedIndex)">
+            <option value="blank"></option>
+            <option value="escape">Escape</option>
+            <option value="explorer">Explorer</option>
+            <option value="fiesta">Fiesta</option>
+            <option value="focus">Focus</option>
+            <option value="transit">Transit</option>
+          </select>
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Fuel Type Combo Box-->
+        <label for="fuel" class="label-input100">Fuel Type</label>
+        <div class="wrap-input100">
+          <select name="fuel" id="fuel" style="margin:5% 0% 5% 5%;" onchange="fuelChange(this.selectedIndex)">
+            <option value="blank"></option>
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+        
+        <!--Car Age Input-->
+        <label for="carAge" class="label-input100">Age of Car</label>
+        <div class="wrap-input100">
+          <input required class="input100" placeholder="Please enter your car's age in years" type="number" id="carAge" name="carAge" min="0" max="30" oninput="carAgeChange(this.value)" title="Car age must be numeric and between 0 and 30 years old.">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Claims Free Combo Box-->
+        <label for="claims" class="label-input100" onmouseover="claimsVisibilityOn()" onmouseout="claimsVisibilityOff()">Claims Free For*</label>
+        <div class="wrap-input100">
+             <select name="claims" style="margin:5% 0% 5% 5%;" id="claims" onchange="claimsChange(this.selectedIndex)">
+               <option value="blank"></option>
+               <option value="one">One Year</option>
+               <option value="two">Two Years</option>
+               <option value="three">Three Years</option>
+               <option value="four">Four Years</option>
+               <option value="five">Five or More Years</option>
+            </select>
+            <textarea id="claimHelp" readonly cols="50" rows="2" style="margin-left:2%; visibility:hidden;">Please select how long you have driven without making a claim.</textarea>
+        </div>
+        
+        <!--Mileage Input-->
+        <label for="mileage" class="label-input100">Mileage Per Year</label>
+        <div class="wrap-input100">
+          <input required class="input100" placeholder="Please enter your mileage per year" type="number" id="mileage" name="mileage" min="1" max="1000000" oninput="mileageChange(this.value)" title="Milage must be numeric and be between 1 and 1000000.">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Make of Car Combo Box-->
+        <label for="value" class="label-input100" onmouseover="valueVisibilityOn()" onmouseout="valueVisibilityOff()">Value of Car*</label>
+        <div class="wrap-input100">
+          <input required class="input100" placeholder="Please enter your car's value in euro" type="number" id="value" name="value" min="250" max="1000000" oninput="valueChange(this.value)" title="car value must be numeric and be between 250 and 100000.">
+          <textarea id="valueHelp" readonly cols="30" rows="1" style=" margin-left:2%; visibility:hidden;">Please enter the current value of your car.</textarea>
+        </div>
+        
+        <!--Security Radio Buttons-->
+        <label id="securityLabel" class="label-input100" for="security">Security</label>
+        <div class="wrap-input100">
+          <input type="radio" name="security" value="None" id="none" onclick="securityClick()" style="margin:5% 1% 5% 5%;">
+          <label for="none" id="noneLabel">None</label>
+          <input type="radio" name="security" value="Alarm" id="alarm" onclick="securityClick()" style="margin:5% 1% 5% 5%;">
+          <label for="alarm" id="alarmLabel">Alarm</label>
+          <input type="radio" name="security" value="Immobiliser" id="immobiliser" onclick="securityClick()" style="margin:5% 1% 5% 5%;">
+          <label for="immobiliser" id="immobiliserLabel">Immobiliser</label>
+          <br>
+          <input type="radio" name="security" value="Alarm and Immobiliser" id="alarm&immobiliser" onclick="securityClick()" style="margin:5% 1% 5% 5%;">
+          <label for="alarm&immobiliser" id="alarm&immobiliserLabel">Alarm & Immobiliser</label>
+          <br>
+          <input type="radio" name="security" value="Tracking" id="tracking" onclick="securityClick()" style="margin:5% 1% 5% 5%;">
+          <label for="tracking" id="trackingLabel">Tracking Device, Alarm and Immobiliser</label>
+        </div>
+            
+            
+            
+        <!--Use Combo Box-->    
+        <label id="use" class="label-input100" for="use" onmouseover="useVisibilityOn()" onmouseout="useVisibilityOff()">Use of Vehicle*</label>
+        <div class="wrap-input100">
+          <input type="radio" name="use" value="Social" id="social" onclick="useClick()" style="margin:5% 1% 5% 5%;">
+          <label for="social" id="socialLabel">Social Domestic and Pleasure</label>
+          <input type="radio" name="use" value="Class 1" id="class1" onclick="useClick()" style="margin:5% 1% 5% 5%;">
+          <label for="class1" id="class1Label">Class 1 Use</label>
+          <textarea id="useHelp" readonly cols="50" rows="2" style="margin-left:2%; visibility:hidden;">Select your car's use. Class 1 is commercial and Social is non-commercial.</textarea>
+        </div>
+        
+        <!--Total Read-Only Input-->
+        <label for="total" class="label-input100">Current Total:</label>
+        <div class="wrap-input100">
+           <input class="input100" type="number" id="total" name="total" style="width:38%;" value="0" readonly>
+        </div>
+        
+        <!--Calculate Button -- I used type button so that the input wouldn't disappear once validation is complete i.e. if there was incorrect input you would be able to fix it, to see title attribute pop-up change to type submit-->
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" name="calculate" type="button" id="calculate" onclick="formValidation()">Calculate</button>
+				</div>
+			</form>
+
+			<div class="contact100-more flex-col-c-m" style="background-image: url('images/bg-01.jpg');">
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-map-marker"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							Address
+						</span>
+
+						<span class="txt2">
+							Insurance Company,Mada Center 8th floor, 379 Hudson St, New York, NY 10018 US
+						</span>
+					</div>
+				</div>
+
+				<div class="dis-flex size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-phone-handset"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							Talk To Us
+						</span>
+
+						<span class="txt3">
+							+0 800 1236879
+						</span>
+					</div>
+				</div>
+
+				<div class="dis-flex size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-envelope"></span>
+					</div>
+
+					<div class="flex-col size2">
+						<span class="txt1 p-b-20">
+							Contact Us
+						</span>
+
+						<span class="txt3">
+							insuranceRegistration@insurance.com
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="dropDownSelect1"></div>
+    <!--Script Section to set MinDate and timer-->
+    <script>
+        let time = 240;
+        window.setInterval(function(){
+          if(time==0)
+          {
+             window.location.href = "timeout.html";
+          }
+          document.getElementById("timer").innerHTML = "For Security purposes this form will timeout in " + time + " seconds.";
+          time --;
+          },1000);
+        let today = new Date(),
+        day = today.getDate(),
+        month = today.getMonth()+1, //January is 0
+        year = today.getFullYear();
+             if(day<10){
+                    day='0'+day
+                } 
+            if(month<10){
+                month='0'+month
+            }
+            today = year+'-'+month+'-'+day;
+    
+            document.getElementById("startDate").setAttribute("min", today);
+            document.getElementById("startDate").setAttribute("value", today);  
+    </script>
+</body>
+</html>

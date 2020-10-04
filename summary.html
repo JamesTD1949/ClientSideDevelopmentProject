@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang='cs'>
+  <head>
+    <title></title>
+    <meta charset='utf-8'>
+    <meta name='description' content=''>
+    <meta name='keywords' content=''>
+    <meta name='author' content=''>
+    <meta name='robots' content='all'>
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	  <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	  <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	  <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	  <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	  <link rel="stylesheet" type="text/css" href="css/util.css">
+	  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!-- NOTE: CSS is a modified version of the template found at: https://colorlib.com/wp/template/contact-form-v17/. I also included a version of my solution with no css in case that's easier to correct --> 
+  </head>
+  <body>
+    </head>
+  <body>
+      <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Your Insurance Detail
+				</span>
+
+        <!--Display Name Input-->
+        <label for="name" class="label-input100">Your Name</label>
+				<div class="wrap-input100">                                                           
+          <input readonly class="input100" type="text" name="name" id="name">
+					<span class="focus-input100"></span>
+				</div>
+
+        <!--Display Age Input-->
+				<label class="label-input100" for="age">Your Age</label>
+				<div class="wrap-input100">
+					<input readonly class="input100" type="number" name="age" id="age">
+					<span class="focus-input100"></span>
+				</div>
+        
+        <!--Display Gender Input-->
+        <label class="label-input100" for="gender" id="genderField">Your Gender</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="gender" id="gender">
+					<span class="focus-input100"></span>
+        </div>
+
+        <!--Display Phone Input-->
+				<label class="label-input100" for="phone">Your Phone Number</label>
+				<div class="wrap-input100">
+					<input readonly type="tel" class="input100" id="phone" name="phone">
+					<span class="focus-input100"></span>
+				</div>
+
+        <!--Display Date Input-->
+				<label for="date" class="label-input100">Your Cover's Start Date</label>
+				<div class="wrap-input100">
+          <input readonly type="text" class="input100" id="date" name="date"/>
+					<span class="focus-input100"></span>
+				</div>
+        
+        <!--Display Type of Cover Combo Input-->
+        <label for="type" class="label-input100">Your Type of Cover</label>
+				<div class="wrap-input100">
+          <input readonly class="input100" type="text" name="cover" id="cover">
+					<span class="focus-input100"></span>
+				</div>
+        
+        <!--Display Make of Car Input-->
+        <label for="make" class="label-input100">Your Car's Make</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="make" id="make">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Model of Car Input-->
+        <label for="model" class="label-input100">Your Car's Model</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="model" id="model">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Car Age Input-->
+        <label for="carAge" class="label-input100">Your Car's Age</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="carAge" id="carAge">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Fuel Type Input-->
+        <label for="fuel" class="label-input100">Your Car's Fuel Type</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="fuel" id="fuel">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Claims Free Input-->
+        <label for="claims" class="label-input100">You're Claims Free For*</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" name="claims" id="claims">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Mileage Input-->
+        <label for="mileage" class="label-input100">Your Mileage Per Year</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="number" id="mileage" name="mileage">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Make of Car Input-->
+        <label for="value" class="label-input100">Your Car's Value</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="number" id="value" name="value">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Security Radio Input-->
+        <label id="securityLabel" class="label-input100" for="security">Security</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" id="security" name="security">
+          <span class="focus-input100"></span>
+        </div>
+                        
+        <!--Display Use Input-->    
+        <label class="label-input100" for="use">Your Vehicle's Use</label>
+        <div class="wrap-input100">
+          <input readonly class="input100" type="text" id="use" name="use">
+          <span class="focus-input100"></span>
+        </div>
+        
+        <!--Display Total-->
+        <label for="total" class="label-input100">Current Total:</label>
+        <div class="wrap-input100">
+           <input class="input100" type="number" id="total" name="total" readonly>
+           <span class="focus-input100"></span>
+        </div>
+        
+        <!--Confrim and Reject Buttons-->
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" name="conmfirm" type="button" id="confirm" style="margin-right: 5%;" onclick="window.alert('You are now registered!')">Confirm</button>
+          <button class="contact100-form-btn" name="reject" type="button" id="reject" onclick="window.close();">Reject</button>
+				</div>
+			</form>
+    <script type="text/javascript">
+      //retrieve user's entered values from local storage and put them into summary form
+      document.getElementById("name").value = localStorage.getItem("name");
+      document.getElementById("age").value = localStorage.getItem("age");
+      document.getElementById("gender").value = localStorage.getItem("gender");
+      document.getElementById("phone").value = localStorage.getItem("phone");
+      document.getElementById("date").value = localStorage.getItem("date");
+      document.getElementById("cover").value = localStorage.getItem("coverType");
+      document.getElementById("make").value = localStorage.getItem("make");
+      document.getElementById("model").value = localStorage.getItem("model");
+      document.getElementById("fuel").value = localStorage.getItem("fuel");
+      document.getElementById("carAge").value = localStorage.getItem("carAge");
+      document.getElementById("claims").value = localStorage.getItem("claims");
+      document.getElementById("mileage").value = localStorage.getItem("mileage");
+      document.getElementById("value").value = localStorage.getItem("value");
+      document.getElementById("security").value = localStorage.getItem("security");;
+      document.getElementById("use").value = localStorage.getItem("use");
+      document.getElementById("total").value = localStorage.getItem("total");
+    </script>
+    <!--CSS Template Scripts-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<script src="js/main.js"></script>
+    
+  </body>
+</html>
